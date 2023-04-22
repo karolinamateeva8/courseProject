@@ -3,18 +3,13 @@ let router = express.Router();
 
 const fs = require("fs");
 
-/* GET home page. */
-//let todo = new Array();
-
 //Показване на Login форма
 router.get("/login", function (req, res) {
   res.render("login", { info: "PLEASE LOGIN" });
 });
-//Може да тестваме логин формата --> npm start или nodemon --> http://127.0.0.1:3000/todo/login
-//Защо при изпращане на данните от формата възникна грешка?
 
 //Създаване на сесия след успешен Login
-session = require("express-session"); //Как да инсталираме и намерим информация за този модул?
+session = require("express-session");
 router.use(
   session({
     secret: "random string",
@@ -57,7 +52,6 @@ router.post("/login", function (req, res) {
     }
   );
 });
-//Може да тестваме логин формата --> http://127.0.0.1:3000/todo/login
 
 //Logout - унищожаване на сесия
 router.get("/logout", (req, res) => {
@@ -65,25 +59,12 @@ router.get("/logout", (req, res) => {
   res.redirect("/items/");
 });
 
-//Всеки потребител със собствен файл
-//let filename = "";
-
 router.all("*", function (req, res, next) {
   if (!req.session.username) {
     res.redirect("/items/login");
     return;
   }
   next();
-  /*
-	filename = req.session.username + ".txt";
-	fs.readFile(filename, (err, data) => {
-		if(err) todo = new Array();
-		else {
-			todo = data.toString().split("\n").filter(s => s.length > 0);
-		}
-		next();
-	});
-*/
 });
 
 router.get("/", function (req, res, next) {
@@ -104,24 +85,6 @@ router.get("/", function (req, res, next) {
     }
   );
 });
-
-/*
-router.post('/', function(req, res, next) {
-	let q = req.body;
-	if(q.action=="add") todo.push(q.todo);
-	if(q.action=="del") todo.splice(q.todo, 1);
-	if(q.action=="add" || q.action=="del") {
-		let txt = '';
-		for(v of todo) txt += v+"\n";
-		fs.writeFile(filename, txt, (err) => {
-			if (err) throw err;
-			console.log('The file has been saved!');
-		});
-	}
-//	res.render('todo', { title: 'Express', todo: todo });
-res.redirect("/todo/");
-});
-*/
 
 //CREATErud + Picture upload
 router.post("/upload", (req, res) => {
