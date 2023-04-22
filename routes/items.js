@@ -1,6 +1,5 @@
 let express = require("express");
 let router = express.Router();
-
 const fs = require("fs");
 
 //Показване на Login форма
@@ -67,7 +66,15 @@ router.all("*", function (req, res, next) {
   next();
 });
 
-router.get("/", function (req, res, next) {
+router.get("/", async function (req, res, next) {
+  //Async file reading
+  var array;
+  fs.readFile("info.txt", async function (err, data) {
+    if (err) throw err;
+    array = data.toString().split("\n");
+    for (i in array) console.log(i + "\t" + array[i]);
+  });
+
   req.session.count++;
   s =
     "User: " +
@@ -75,7 +82,8 @@ router.get("/", function (req, res, next) {
     " Count: " +
     req.session.count +
     " " +
-    new Date();
+    new Date() +
+    array;
 
   db.all(
     "SELECT * FROM items ORDER BY date_created DESC;",
