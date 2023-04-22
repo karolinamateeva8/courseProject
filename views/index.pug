@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  div.container.pt-5
+    main
+      #myCarousel.carousel.slide(data-bs-ride='carousel')
+        .carousel-indicators
+          button.active(type='button' data-bs-target='#myCarousel' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
+          button(type='button' data-bs-target='#myCarousel' data-bs-slide-to='1' aria-label='Slide 2')
+          button(type='button' data-bs-target='#myCarousel' data-bs-slide-to='2' aria-label='Slide 3')
+        .carousel-inner
+          .carousel-item.active
+            img.featurette-image.img-fluid.mx-auto(src='./images/1.jpeg' alt='Responsive image' width='1500' height='500' preserveaspectratio='xMidYMid slice' focusable='false')
+            .container
+              .carousel-caption.text-start
+                h1.text-uppercase This is the place to shop from.
+                p.text-uppercase Easy, not time-consuming process you will love.
+                p
+                  a.btn.btn-lg.btn-success(href='/') Sign up today
+          .carousel-item
+            img.featurette-image.img-fluid.mx-auto(src='./images/2.jpeg' alt='Responsive image' width='1500' height='500' preserveaspectratio='xMidYMid slice' focusable='false')
+            .container
+              .carousel-caption
+                h1.text-uppercase Shop from us
+                p.text-uppercase Always fresh items on affordable prices.
+                p
+                  a.btn.btn-lg.btn-success(href='/contact') Learn more
+          .carousel-item
+            img.featurette-image.img-fluid.mx-auto(src='./images/3.jpeg' alt='Responsive image' width='1300' height='400' preserveaspectratio='xMidYMid slice' focusable='false')
+            .container
+              .carousel-caption.text-end
+                h1.text-uppercase.text-success Try our items.
+                p.text-uppercase.text-success  We will always be here for you.
+                p
+                  a.btn.btn-lg.btn-success(href='/items') Browse items
+        button.carousel-control-prev(type='button' data-bs-target='#myCarousel' data-bs-slide='prev')
+          span.carousel-control-prev-icon(aria-hidden='true')
+          span.visually-hidden Previous
+        button.carousel-control-next(type='button' data-bs-target='#myCarousel' data-bs-slide='next')
+          span.carousel-control-next-icon(aria-hidden='true')
+          span.visually-hidden Next

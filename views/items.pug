@@ -1,0 +1,110 @@
+extends layout
+
+block content
+        div.container.pt-5
+            h1.fw-normal.text-success.text-center Create your Shopping list
+            table.table.table-striped.table-hover#mytable
+                thead.bg-secondary.text-uppercase.font-weight-bold.text-light
+                    tr
+                        td.d-none id
+                        td user
+                        td item
+                        td image
+                        td quantity
+                        td created on
+                        td  
+                tbody
+                    each row in rows
+                        tr
+                            td.d-none= row.id
+                            td= row.user
+                            td
+                                pre= row.item
+                            td
+                                img.img-fluid.rounded-circle.img-thumbnail(src=row.url alt='item' width='100' height='100')
+                            td= row.quantity
+                            td= row.date_created
+                            td
+                                div.row
+                                    a.btn.btn-sm.btn-outline-success.edit.text-success(href="javascript:void(0);" data-id=row.id data-item=row.item data-quantity=row.quantity data-url=row.url) EDIT
+                                    span &nbsp;&nbsp;&nbsp;
+                                    a.btn.btn-sm.btn-outline-danger.delete(href="javascript:void(0);" data-id=row.id) DELETE
+
+            button.btn.btn-success(data-bs-toggle="modal" data-bs-target="#modalAdd") Add New Item 
+            
+            //modal form ADD - File upload
+            form(action="/items/upload" method="post" enctype="multipart/form-data")
+                div.modal.fade#modalAdd(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+                    div.modal-dialog(role="document")
+                        div.modal-content
+                            div.modal-header
+                                h5.modal-title.text-secondary#exampleModalLabel Add New Item
+                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                            div.modal-body
+                                div.form-group
+                                    div.form-control
+                                        label.pe-3 Quantity
+                                        input#quantity.form-control(name="quantity" type='number' min='1' max='100' required)
+                                div.form-group
+                                    textarea.form-control(name="item" placeholder="Item to buy" required)
+                                div.form-group
+                                    input.form-control(type="file" name="file")
+                            div.modal-footer
+                                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                                button.btn.btn-success(type="submit") Save
+
+            //modal form DELETE
+            form#add-row-form(action="/items/delete" method="post")
+                div.modal.fade#DeleteModal(tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true")
+                    div.modal-dialog
+                        div.modal-content
+                            div.modal-header
+                                h5.modal-title.text-secondary#modalLabel Delete Confirmation
+                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                            div.modal-body
+                                strong Are you sure to delete this item?
+                            div.modal-footer
+                                input.form-control.id(type="hidden" name="id" required)
+                                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                                button.btn.btn-danger(type="submit") Delete
+
+            //modal form EDIT/UPDATE
+            form(action="/items/update" method="post")
+                div.modal.fade#EditModal(tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true")
+                    div.modal-dialog(role="document")
+                        div.modal-content
+                            div.modal-header
+                                h5.modal-title.text-secondary#modalLabel Edit Item
+                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                            div.modal-body
+                                div.form-group
+                                    div.form-control
+                                        label.pe-3(for='quantity') Quantity
+                                        input#quantity(type='number' name="quantity" min='1' max='100' required)
+                                div.form-group
+                                    textarea.form-control.item(name="item" placeholder=" Your item " required)
+                                div.form-group
+                                    input.form-control.url(type="text" name="url" placeholder=" Picture URL ")
+                            div.modal-footer
+                                input.form-control.id(type="hidden" name="id" required)
+                                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                                button.btn.btn-success(type="submit") Update
+
+            script(src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js")
+            script.
+                $(document).ready(function(){
+                    //showing modal form DELETE
+                    $('#mytable').on('click','.delete',function(){
+                        $('#DeleteModal').modal('show');
+                        $('.id').val($(this).data('id'));
+                    });
+                    
+                    //showing modal form EDIT
+                    $('#mytable').on('click','.edit',function(){
+                        $('#EditModal').modal('show');
+                        $('.id').val($(this).data('id'));
+                        $('.item').val($(this).data('item'));
+                        $('.quantity').val($(this).data('quantity'));
+                        $('.url').val($(this).data('url'));
+                    });                 
+                });

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+   div.container.pt-5
+      h1.fw-normal.text-success.text-center Log in
+      form.mx-auto.border.border-success.w-50.p-3(method="post")
+         div.form-group.pt-2
+            label Username:
+            input.form-control(type="text" name="username" placeholder=" Enter user name " value="demo")
+         div.form-group.pt-2
+            label Password:
+            input.form-control(type="password" name="password" value="demo")
+         div.form-group.pt-2
+            input.btn.btn-success(type="submit" value="Login")
+         .clearfix.pt-2
+            label.float-left.form-check-label
+            input(type='checkbox')
+            |  Remember me

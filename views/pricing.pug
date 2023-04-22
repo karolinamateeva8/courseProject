@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  .container.py-3
+    header
+      .pricing-header.p-3.pb-md-4.mx-auto.text-center
+        h1.display-4.fw-normal.text-success Pricing
+    main
+      .row.row-cols-1.row-cols-md-3.mb-3.text-center
+        .col
+          .card.mb-4.rounded-3.shadow-sm
+            .card-header.py-3
+              h4.my-0.fw-normal Free
+            .card-body
+              h1.card-title.pricing-card-title
+                | $0
+                small.text-muted.fw-light /mo
+              ul.list-unstyled.mt-3.mb-4
+                li 10 free items
+                li 2 free deliveries
+                li Email support
+                li Help center access
+              button.w-100.btn.btn-lg.btn-success(type='button') Sign up for free
+        .col
+          .card.mb-4.rounded-3.shadow-sm
+            .card-header.py-3
+              h4.my-0.fw-normal Pro
+            .card-body
+              h1.card-title.pricing-card-title
+                | $15
+                small.text-muted.fw-light /mo
+              ul.list-unstyled.mt-3.mb-4
+                li 20 free items
+                li 10 free deliveries
+                li Priority email support
+                li Help center access
+              button.w-100.btn.btn-lg.btn-outline-success(type='button') Get started
+        .col
+          .card.mb-4.rounded-3.shadow-sm
+            .card-header.py-3
+              h4.my-0.fw-normal Enterprise
+            .card-body
+              h1.card-title.pricing-card-title
+                | $29
+                small.text-muted.fw-light /mo
+              ul.list-unstyled.mt-3.mb-4
+                li 30 free items
+                li 15 free deliveries
+                li Phone and email support
+                li Help center access
+              button.w-100.btn.btn-lg.btn-outline-success(type='button') Get started

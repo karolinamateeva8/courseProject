@@ -1,0 +1,20 @@
+extends layout
+
+block content
+   div.container.pt-5
+      h1.fw-normal.text-success.text-center Contact Us
+      form.mx-auto.border.border-success.w-50.p-3(method="post")
+         div.form-group.pt-2
+            label Name:
+            input.form-control(type="text" name="name")
+         div.form-group.pt-2
+            label Email:
+            input.form-control(type="email" name="email")
+         div.form-group.pt-2
+            label Phone:
+            input.form-control(type="tel" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}")
+         div.form-group.pt-2
+            label Message:
+            textarea.form-control(aria-label='Textarea')
+         div.form-group.pt-2
+            a.btn.btn-success(href='/') Send your message
