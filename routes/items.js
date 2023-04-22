@@ -2,6 +2,9 @@ let express = require("express");
 let router = express.Router();
 const fs = require("fs");
 
+let items = new Array();
+let filename = "info.txt";
+
 //Показване на Login форма
 router.get("/login", function (req, res) {
   res.render("login", { info: "PLEASE LOGIN" });
@@ -63,18 +66,21 @@ router.all("*", function (req, res, next) {
     res.redirect("/items/login");
     return;
   }
-  next();
+  //Async file reading
+  fs.readFile(filename, (err, data) => {
+    if (err) items = new Array();
+    else {
+      items = data
+        .toString()
+        .split("\n")
+        .filter((s) => s.length > 0);
+    }
+    console.log(items);
+    next();
+  });
 });
 
 router.get("/", async function (req, res, next) {
-  //Async file reading
-  var array;
-  fs.readFile("info.txt", async function (err, data) {
-    if (err) throw err;
-    array = data.toString().split("\n");
-    for (i in array) console.log(i + "\t" + array[i]);
-  });
-
   req.session.count++;
   s =
     "User: " +
@@ -82,14 +88,13 @@ router.get("/", async function (req, res, next) {
     " Count: " +
     req.session.count +
     " " +
-    new Date() +
-    array;
+    new Date();
 
   db.all(
     "SELECT * FROM items ORDER BY date_created DESC;",
     function (err, rows) {
       if (err) throw err;
-      res.render("items", { info: s, rows: rows });
+      res.render("items", { info: s, rows: rows, items: items });
     }
   );
 });
@@ -103,6 +108,16 @@ router.post("/upload", (req, res) => {
     });
     url = "/imagesdb/" + req.files.file.name;
   }
+
+  //Add items to txt file
+  items.push("Username: " + req.session.username + " ,item: " + req.body.item);
+
+  let txt = "";
+  for (v of items) txt += v + "\n";
+  fs.writeFile(filename, txt, (err) => {
+    if (err) throw err;
+    console.log("The file has been saved!");
+  });
 
   db.run(
     `

@@ -31,7 +31,13 @@ block content
                                     a.btn.btn-sm.btn-outline-danger.delete(href="javascript:void(0);" data-id=row.id) DELETE
 
             button.btn.btn-success(data-bs-toggle="modal" data-bs-target="#modalAdd") Add New Item 
-            
+            if items.length>0
+                h3.fw-normal.text-success.pt-4 Items in file
+                each v, i in items
+                    p
+                        div(class="col-12")
+                            label #{i}: #{v}
+                hr
             //modal form ADD - File upload
             form(action="/items/upload" method="post" enctype="multipart/form-data")
                 div.modal.fade#modalAdd(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
@@ -78,9 +84,11 @@ block content
                                 button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
                             div.modal-body
                                 div.form-group
-                                    div.form-control
-                                        label.pe-3(for='quantity') Quantity
-                                        input#quantity(type='number' name="quantity" min='1' max='100' required)
+                                    div(class="col-12")
+                                        label(for="quantity", class="form-label") Enter quantity
+                                        input(type="hidden", name="action", value="add")
+                                    div(class="col-12")
+                                        input(type="number", name="quantity", id="quantity", class="form-control" min='1' required)
                                 div.form-group
                                     textarea.form-control.item(name="item" placeholder=" Your item " required)
                                 div.form-group
@@ -89,6 +97,7 @@ block content
                                 input.form-control.id(type="hidden" name="id" required)
                                 button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
                                 button.btn.btn-success(type="submit") Update
+
 
             script(src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js")
             script.
